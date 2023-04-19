@@ -23,8 +23,8 @@ const Home = ({navigation}) => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    const [host, port] = data.split(',');
-    navigation.push('SubTitles', {port: port, host: host});
+    console.log(data);
+    navigation.push('SubTitles', {data: data});
     // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
@@ -42,7 +42,8 @@ const Home = ({navigation}) => {
               onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
               style={StyleSheet.camera}
             />
-            {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+            {!scanned && <Text>Point your back camera at your theater's QR code to start</Text>}
+            {scanned && <Button title={'Tap to scan another QR code'} onPress={() => setScanned(false)} />}
         </View>
     );
 }

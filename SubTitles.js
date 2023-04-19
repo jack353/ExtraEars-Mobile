@@ -1,48 +1,39 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Dimensions, Text, View, Image, Pressable, Button } from 'react-native';
-import TcpSocket from 'react-native-tcp-socket';
 import Subtitle from 'react-native-subtitles';
 import { Video } from 'expo-av';
-
+import io from 'socket.io-client';
+import { WebSocket } from 'expo';
 
 const SubTitles = ({route, navigation}) => {
-    const { port, host } = route.params;
+    const { data } = route.params;
 
-    const options = {
-        port: port,
-        host: host,
-        localAddress: host,
-        reuseAddress: true,
-        // localPort: 20000,
-        // interface: "wifi",
-    };
+    //const socket = io(data);
 
-    const client = TcpSocket.createConnection(options, () => {
-        // Write on the socket
-        client.write('Hey Smitt!');
-      
-        // Close socket
-        //client.destroy();
-    });
-
-    client.on('data', function(data) {
-        if (data === 'pp') {
-            handlePlayPause();
-        }
-        else if (typeof data === 'object') {
-            
-        }
-        console.log('message was received', data);
-    });
+    useEffect(() => {
+        const ws = new WebSocket(data);
     
-    client.on('error', function(error) {
-        console.log(error);
-    });
+        ws.onmessage = (event) => {
+            if (event.data === 'pp') {
+                handlePlayPause();
+            }
+            console.log('Received message:', event.data);
+        };
     
-    client.on('close', function(){
-        console.log('Connection closed!');
-    });
+        ws.send(JSON.stringify({ type: 'subscribe', channel: 'channel-1' }));
+    
+        return () => {
+            ws.close();
+        };
+      }, []);
+
+    // socket.on('message', (data) => {
+    //     console.log('Received message:', data);
+    //     if (data === 'pp') {
+    //         handlePlayPause();
+    //     }
+    //   });
 
     const videoRef = useRef(null);
     const [status, setStatus] = useState({});
@@ -57,13 +48,13 @@ const SubTitles = ({route, navigation}) => {
 
     return (
         <View>
-            <Subtitle source={{ uri: 'path/to/subtitles.srt' }} fontSize={20} fontColor='orange' backgroundColor='black'/>
+            {/* <Subtitle source={{ uri: 'path/to/subtitles.srt' }} fontSize={24} fontColor='orange' backgroundColor='black'/>
             <Video
                 ref={videoRef}
                 source={{ uri: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' }}
                 resizeMode="contain"
                 onPlaybackStatusUpdate={status => setStatus(() => status)}
-            />
+            /> */}
         </View>
     
     );
