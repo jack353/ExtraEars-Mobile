@@ -1,72 +1,27 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Dimensions, Text, View, Image, Pressable } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-export default function App() {
-  const [showDropDown, showIt] = useState(false);
-  const [value, setValue] = useState(null);
+import Home from './Home';
+import SubTitles from './SubTitles';
+import { SafeAreaView } from 'react-navigation';
 
-  var data = [
-    { label: 'Theater 1 - Napoleon Dynamite', value: '1' },
-    { label: 'Theater 2 - Jaws', value: '2' },
-    { label: 'Theater 3 - Scooby Doo', value: '3' }
-  ]
+const Stack = createNativeStackNavigator();
 
-  return (
-    <View style={styles.container}>
-      <Image style={styles.logo} source={require("./assets/logo-color.png")}/>
-      {!showDropDown ? (
-        <Pressable style={styles.buttons} onPress={() => showIt(!showDropDown)}>
-          <Text style={styles.buttonText}>Get Started!</Text>
-        </Pressable>
-      ) : null}
-      {showDropDown ? (
-        <Dropdown 
-          style={styles.dropDown}
-          containerStyle={styles.dropDownContainer}
-          data={data} 
-          search
-          searchPlaceholder='Search'
-          placeholder="Select a theater and movie"
-          labelField="label"
-          valueField="value"
-          onChange={item => {
-            setValue(item.value);
-          }}
-        
-        />
-      ) : null}
-      {showDropDown ? (
-        <Pressable style={styles.buttons} onPress={() => showIt(!showDropDown)}>
-          <Text style={styles.buttonText}>See Subtitles</Text>
-        </Pressable>
-      ) : null}
-      <StatusBar style="auto" />
-      {/*
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-      */}
-
-    </View>
-  );
+const App = () => {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator intialRouteName="Home">
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="SubTitles" component={SubTitles} />
+          {/* <Route exact path="/" component={Home}/>
+          <Route exact path="subTitles" component={SubTitles}/> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -106,3 +61,6 @@ const styles = StyleSheet.create({
     width: 300,
   }
 });
+
+
+export default App;

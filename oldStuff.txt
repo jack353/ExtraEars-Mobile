@@ -1,0 +1,38 @@
+const [showDropDown, showIt] = useState(false);
+    const [value, setValue] = useState(null);
+
+    var data = [
+        { label: 'Theater 1 - Napoleon Dynamite', value: '1' },
+        { label: 'Theater 2 - Jaws', value: '2' },
+        { label: 'Theater 3 - Scooby Doo', value: '3' }
+    ];            
+            
+            
+            {/* {!showDropDown ? (
+                <Pressable style={styles.buttons} onPress={() => showIt(!showDropDown)}>
+                    <Text style={styles.buttonText}>Get Started!</Text>
+                </Pressable>
+            ) : null}
+            {showDropDown ? (
+                <Dropdown 
+                style={styles.dropDown}
+                containerStyle={styles.dropDownContainer}
+                data={data} 
+                search
+                searchPlaceholder='Search'
+                placeholder="Select a theater and movie"
+                labelField="label"
+                valueField="value"
+                onChange={item => {
+                    setValue(item.value);
+                }}
+                
+                />
+            ) : null}
+            {showDropDown ? (
+                <Pressable style={styles.buttons} onPress={() => navigation.push("SubTitles")}>
+                    <Text style={styles.buttonText}>See Subtitles</Text>
+                </Pressable>
+            ) : null} */}
+
+            <StatusBar style="auto" />
