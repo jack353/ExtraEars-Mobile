@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
   camera: {
     top: 120,
     left: 50,
-    width: 75%,
-    height: 50%,
+    width: 140,
+    height: 140,
   }
 });
 
